@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tres Salsas</title>
+<meta name="description" content="Tres Salsas · 3 tacos. 3 salsas. Hechos en casa. Pedí por WhatsApp o PedidosYa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Poppins:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: póster de barrio — crema tortilla, mancha roja de salsa, doodles de línea; un escenario sticky donde el taco se arma al hacer scroll */
+:root{
+  --crema:#F6EBD5; --papel:#FCF5E7; --tinta:#2A1810; --tinta-2:#6E5546;
+  --rojo:#A8262B; --verde:#4E9A47; --azul:#1D6F8E; --linea:rgba(42,24,16,.14);
+  --sobre-rojo:#FCF5E7; --sombra:0 18px 40px -22px rgba(42,24,16,.45);
+  --f-display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
+  --f-body:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:22px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --crema:#1B130E; --papel:#261B14; --tinta:#F6EBD5; --tinta-2:#C8B39F;
+  --rojo:#E0544F; --verde:#6DBA62; --azul:#4AA3C6; --linea:rgba(246,235,213,.14);
+  --sobre-rojo:#1B130E; --sombra:0 18px 40px -22px rgba(0,0,0,.8); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --crema:#1B130E; --papel:#261B14; --tinta:#F6EBD5; --tinta-2:#C8B39F;
+  --rojo:#E0544F; --verde:#6DBA62; --azul:#4AA3C6; --linea:rgba(246,235,213,.14);
+  --sobre-rojo:#1B130E; --sombra:0 18px 40px -22px rgba(0,0,0,.8); color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{background:var(--crema);color:var(--tinta);font-family:var(--f-body);font-size:16px;line-height:1.55;overflow-x:hidden;overflow-x:clip}
+h1,h2,h3{font-family:var(--f-display);line-height:1.02;text-wrap:balance;margin:0;letter-spacing:-.02em}
+p{margin:0}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--azul);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta-2)}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- header ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--crema) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--linea)}
+.top .wrap{display:flex;align-items:center;gap:16px;padding-block:10px}
+.brand{white-space:nowrap;display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-weight:800;font-size:1.2rem;letter-spacing:-.02em}
+.brand img{width:40px;height:auto}
+.nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.nav a{text-decoration:none;font-weight:500;font-size:.92rem;padding:8px 12px;border-radius:999px}
+.nav a:hover{background:var(--linea)}
+.estado{display:inline-flex;align-items:center;gap:7px;font-size:.8rem;font-weight:600;padding:6px 11px;border-radius:999px;border:1px solid var(--linea);white-space:nowrap}
+.estado i{width:8px;height:8px;border-radius:50%;background:var(--tinta-2)}
+.estado.abierto i{background:var(--verde);box-shadow:0 0 0 4px color-mix(in srgb,var(--verde) 25%,transparent)}
+@media (max-width:760px){.nav{display:none}.estado{margin-left:auto}}
+@media (max-width:420px){.estado{font-size:.72rem;padding:5px 9px}.brand{font-size:1.05rem}.brand img{width:32px}}
+
+/* ---------- botones ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:600;text-decoration:none;border-radius:999px;padding:13px 22px;border:2px solid var(--tinta);background:transparent;cursor:pointer;transition:transform .15s ease,background .15s ease;white-space:nowrap}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+.btn-rojo{background:var(--rojo);border-color:var(--rojo);color:var(--sobre-rojo)}
+.btn-verde{background:var(--verde);border-color:var(--verde);color:var(--sobre-rojo)}
+.btn svg{width:20px;height:20px;flex:none}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow-x:clip;padding-block:clamp(36px,6vw,72px) clamp(40px,6vw,80px)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,56px);align-items:center}
+.hero-txt{min-width:0;position:relative;z-index:2}
+.chip-tacos{display:inline-block;background:color-mix(in srgb,var(--tinta) 10%,transparent);font-weight:600;padding:7px 16px;border-radius:12px;font-size:.95rem}
+.wordmark{position:relative;margin:22px 0 22px;max-width:560px}
+.wordmark svg.blob{position:absolute;inset:-14% -8% -16% -6%;width:114%;height:130%;z-index:0}
+.wordmark h1{position:relative;z-index:1;color:var(--sobre-rojo);font-size:clamp(3.6rem,10.5vw,7.6rem);font-weight:800;line-height:.9;padding:6% 8%}
+.tagline{font-size:clamp(1.15rem,2.2vw,1.4rem);font-weight:600;max-width:30ch}
+.tagline b{color:var(--rojo)}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.horario{margin-top:18px;color:var(--tinta-2);font-size:.95rem}
+.hero-foto{position:relative;min-width:0}
+.hero-foto .marco{border-radius:46% 54% 48% 52% / 54% 44% 56% 46%;overflow:hidden;aspect-ratio:1/1;max-width:100%;box-shadow:var(--sombra);transform:rotate(-2deg)}
+.hero-foto img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.15)}
+.gotas{position:absolute;right:4%;top:-4%;display:flex;gap:8px;z-index:2}
+.gotas span{width:30px;height:42px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;transform:rotate(18deg);box-shadow:inset -5px -6px 0 rgba(0,0,0,.12),inset 5px 6px 0 rgba(255,255,255,.35);animation:bob 3.2s ease-in-out infinite}
+.gotas span:nth-child(1){background:#B8312E}
+.gotas span:nth-child(2){background:#5FA347;animation-delay:.3s;transform:rotate(-8deg) translateY(-8px)}
+.gotas span:nth-child(3){background:#1F78A0;animation-delay:.6s;transform:rotate(14deg) translateY(6px)}
+@keyframes bob{50%{translate:0 -8px}}
+.sello{position:absolute;left:-4%;bottom:6%;background:var(--papel);border:2px solid var(--tinta);border-radius:16px;padding:10px 14px;font-weight:600;font-size:.9rem;box-shadow:var(--sombra);transform:rotate(-4deg);z-index:2}
+.sello b{display:block;font-family:var(--f-display);font-size:1.5rem;color:var(--rojo);line-height:1}
+.doodle{position:absolute;pointer-events:none;z-index:1;opacity:.9}
+.doodle path,.doodle circle{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero-foto{max-width:440px;margin:0 auto;width:100%}.doodle{display:none}}
+
+/* ---------- armado del taco (scroll) ---------- */
+.armado{position:relative;height:520vh;background:var(--papel);border-block:1px solid var(--linea)}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center;padding-top:62px}
+.stage .wrap{width:100%;display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(16px,4vw,56px);align-items:center}
+.pasos-col{min-width:0}
+.pasos-col h2{font-size:clamp(2rem,4.4vw,3.4rem);margin:8px 0 22px}
+.pasos{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.paso{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:start;padding:10px 12px;border-radius:14px;opacity:.38;transition:opacity .3s ease,background .3s ease}
+.paso::before{content:attr(data-n);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;border:2px solid currentColor;font-size:.9rem}
+.paso h3{font-family:var(--f-body);font-size:1.05rem;font-weight:700;letter-spacing:0;line-height:1.3}
+.paso p{font-size:.92rem;color:var(--tinta-2)}
+.paso.on{opacity:1;background:var(--crema)}
+.paso.hecho{opacity:.75}
+.paso.on::before{background:var(--rojo);border-color:var(--rojo);color:var(--sobre-rojo)}
+.taco-col{position:relative;min-width:0;display:flex;flex-direction:column;align-items:center;gap:14px}
+.taco-svg{width:100%;max-width:620px;height:auto;overflow:visible}
+.rellenos{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.rellenos button{border:2px solid var(--tinta);background:transparent;border-radius:999px;padding:8px 16px;font-weight:600;cursor:pointer;font-size:.92rem}
+.rellenos button[aria-pressed="true"]{background:var(--tinta);color:var(--crema)}
+.barra{position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--linea)}
+.barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,#B8312E,#5FA347,#1F78A0)}
+.listo{position:absolute;top:6%;right:6%;font-family:var(--f-display);font-weight:800;font-size:clamp(1.4rem,3vw,2.2rem);color:var(--rojo);border:3px solid var(--rojo);border-radius:14px;padding:4px 14px;transform:rotate(8deg) scale(.6);opacity:0;transition:transform .35s cubic-bezier(.3,1.6,.5,1),opacity .25s}
+.listo.ver{opacity:1;transform:rotate(8deg) scale(1)}
+.scroll-hint{font-size:.85rem;color:var(--tinta-2);display:flex;align-items:center;gap:8px;margin-top:18px}
+.scroll-hint svg{width:18px;animation:bob 1.6s ease-in-out infinite}
+@media (max-width:860px){
+  .stage .wrap{grid-template-columns:1fr;gap:8px}
+  .taco-col{order:-1}
+  .taco-svg{max-width:440px}
+  .pasos-col h2{font-size:1.7rem;margin:4px 0 10px}
+  .pasos{display:block}
+  .paso{display:none;opacity:1;background:var(--crema)}
+  .paso.on{display:grid}
+  .scroll-hint{display:none}
+}
+@media (max-width:860px) and (max-height:700px){.pasos-col .eyebrow{display:none}.taco-svg{max-width:360px}}
+
+/* ---------- menú ---------- */
+section.bloque{padding-block:clamp(56px,8vw,104px)}
+.cab{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:32px}
+.cab h2{font-size:clamp(2.2rem,5vw,3.8rem)}
+.cab p{max-width:42ch;color:var(--tinta-2)}
+.tacos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.taco-card{background:var(--papel);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--linea);min-width:0}
+.taco-card .foto{aspect-ratio:4/3;overflow:hidden;max-width:100%}
+.taco-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.taco-card:hover img{transform:scale(1.06)}
+.taco-card .cuerpo{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.taco-card h3{font-size:2rem;font-weight:800}
+.taco-card .desc{color:var(--tinta-2);font-size:.95rem;flex:1}
+.taco-card .pie{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.precio{font-family:var(--f-display);font-weight:800;font-size:1.45rem}
+.precio small{font-family:var(--f-body);font-weight:500;font-size:.8rem;color:var(--tinta-2)}
+.mas{width:44px;height:44px;border-radius:50%;border:2px solid var(--tinta);background:transparent;font-size:1.5rem;line-height:1;cursor:pointer;display:grid;place-items:center;transition:transform .15s,background .15s}
+.mas:hover{background:var(--tinta);color:var(--crema);transform:rotate(90deg)}
+.c-osobuco{color:var(--rojo)} .c-pollo{color:var(--azul)} .c-vegetales{color:var(--verde)}
+.orden3{margin-top:18px;background:var(--rojo);color:var(--sobre-rojo);border-radius:var(--r);padding:22px 26px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.orden3 h3{font-size:clamp(1.5rem,3vw,2.1rem)}
+.orden3 p{opacity:.92}
+.orden3 .precio{font-size:2.2rem;margin-left:auto}
+.orden3 .btn{border-color:var(--sobre-rojo);color:var(--sobre-rojo)}
+.salsas{margin-top:40px;display:grid;grid-template-columns:auto repeat(3,1fr);gap:14px;align-items:stretch}
+.salsas>h3{font-size:1.8rem;align-self:center;padding-right:10px}
+.salsa{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:18px;border:1px solid var(--linea);background:var(--papel);min-width:0}
+.salsa .pote{width:46px;height:46px;border-radius:50%;flex:none;box-shadow:inset 0 -6px 0 rgba(0,0,0,.12),0 0 0 5px var(--crema),0 0 0 6px var(--linea)}
+.salsa b{display:block;font-size:1.05rem}
+.salsa span{font-size:.88rem;color:var(--tinta-2)}
+.nota-precio{margin-top:18px;font-size:.88rem;color:var(--tinta-2)}
+@media (max-width:900px){.tacos-grid{grid-template-columns:1fr 1fr}.salsas{grid-template-columns:1fr 1fr 1fr}.salsas>h3{grid-column:1/-1}}
+@media (max-width:600px){.tacos-grid,.salsas{grid-template-columns:1fr}.orden3 .precio{margin-left:0}}
+
+/* ---------- armador de pedido ---------- */
+.pedir{background:var(--papel);border-block:1px solid var(--linea)}
+.pedido-grid{display:grid;grid-template-columns:1.25fr .85fr;gap:28px;align-items:start}
+.pasos-pedido{display:grid;gap:22px;min-width:0}
+.caja{background:var(--crema);border-radius:var(--r);padding:22px;border:1px solid var(--linea);min-width:0}
+.caja-cab{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.caja-cab .n{font-family:var(--f-display);font-weight:800;font-size:1.1rem;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--tinta);color:var(--crema);flex:none;transform:translateY(6px)}
+.caja-cab h3{font-size:1.6rem}
+.caja-cab p{color:var(--tinta-2);font-size:.9rem}
+.selector{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.opcion{border:2px solid var(--linea);background:var(--papel);border-radius:18px;padding:14px 12px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;min-width:0;transition:border-color .2s}
+.opcion.tiene{border-color:currentColor}
+.opcion .mini{width:84px;height:62px;cursor:pointer;transition:transform .15s}
+.opcion .mini:hover{transform:translateY(-3px) rotate(-4deg)}
+.opcion b{font-size:1.05rem;color:var(--tinta)}
+.cont{display:flex;align-items:center;gap:10px;margin-top:4px}
+.cont button{width:36px;height:36px;border-radius:50%;border:2px solid var(--tinta);background:transparent;font-size:1.2rem;line-height:1;cursor:pointer;display:grid;place-items:center;color:var(--tinta)}
+.cont button:disabled{opacity:.3;cursor:default}
+.cont output{min-width:22px;text-align:center;font-weight:700;color:var(--tinta)}
+.bandeja{margin-top:18px;border-radius:18px;padding:16px;background:repeating-linear-gradient(-45deg,transparent 0 10px,var(--linea) 10px 11px),var(--papel);border:2px dashed var(--linea);min-height:118px}
+.bandeja-vacia{color:var(--tinta-2);text-align:center;padding:22px 8px;font-size:.95rem}
+.trios{display:flex;flex-wrap:wrap;gap:12px}
+.trio{display:flex;flex-direction:column;gap:6px;padding:8px 10px 6px;border-radius:14px;background:var(--crema);border:2px solid var(--linea)}
+.trio.completo{border-color:var(--rojo)}
+.trio .fila{display:flex;gap:4px}
+.trio .slot{width:52px;height:40px;border-radius:10px;border:2px dashed var(--linea);display:grid;place-items:center}
+.trio .slot svg{width:52px;height:40px;cursor:pointer}
+.trio .slot.pop svg{animation:pop .45s cubic-bezier(.3,1.7,.5,1)}
+@keyframes pop{0%{transform:translateY(-30px) scale(.4);opacity:0}100%{transform:none;opacity:1}}
+.trio small{font-size:.74rem;font-weight:600;color:var(--tinta-2);text-align:center}
+.trio.completo small{color:var(--rojo)}
+.pista{margin-top:12px;font-size:.9rem;font-weight:500}
+.mini svg,.trio .slot svg{transform:rotate(-10deg)}
+.pista i{font-style:normal;color:var(--rojo);font-weight:700}
+.salsa-extra{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.salsa-extra .opcion{flex-direction:row;justify-content:space-between;text-align:left;padding:12px 14px}
+.salsa-extra .opcion .pote{width:28px;height:28px;border-radius:50%;flex:none}
+.salsa-extra .opcion b{font-size:.95rem;flex:1}
+.incluidas{margin-bottom:14px;font-size:.92rem;color:var(--tinta-2)}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.campo{display:flex;flex-direction:column;gap:6px;min-width:0}
+.campo.full{grid-column:1/-1}
+.campo label,.campo legend{font-weight:600;font-size:.9rem}
+.campo input,.campo select,.campo textarea{border:2px solid var(--linea);background:var(--papel);border-radius:12px;padding:11px 13px;width:100%}
+.campo input:focus,.campo select:focus,.campo textarea:focus{border-color:var(--tinta);outline:none}
+.campo textarea{resize:vertical;min-height:70px}
+.campo .err{color:var(--rojo);font-size:.82rem;font-weight:600}
+.campo.invalido input{border-color:var(--rojo)}
+fieldset.campo{border:0;padding:0;margin:0}
+.segmento{display:flex;gap:6px;flex-wrap:wrap;position:relative}
+.segmento input{position:absolute;left:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none}
+.segmento label{border:2px solid var(--linea);background:var(--papel);border-radius:999px;padding:9px 16px;cursor:pointer;font-weight:600;font-size:.9rem}
+.segmento input:checked+label{background:var(--tinta);color:var(--crema);border-color:var(--tinta)}
+.segmento input:focus-visible+label{outline:3px solid var(--azul);outline-offset:2px}
+@media (max-width:980px){.pedido-grid{grid-template-columns:1fr}}
+@media (max-width:600px){.selector,.salsa-extra{grid-template-columns:1fr}.opcion{flex-direction:row;justify-content:space-between;text-align:left}.opcion .mini{width:70px;height:52px}.opcion b{flex:1}.campos{grid-template-columns:1fr}.caja{padding:18px 16px}}
+
+/* ticket */
+.ticket-col{position:sticky;top:calc(env(safe-area-inset-top,0px) + 84px)}
+.ticket{background:#FFFDF7;color:#2A1810;border-radius:6px 6px 0 0;padding:24px 22px 18px;position:relative;box-shadow:var(--sombra);font-size:.95rem}
+.ticket::after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:12px;background:radial-gradient(circle at 8px 0,transparent 8px,#FFFDF7 8.5px) 0 0/16px 12px repeat-x}
+.ticket .t-cab{text-align:center;border-bottom:2px dashed #D7C7AE;padding-bottom:14px;margin-bottom:12px}
+.ticket .t-cab img{width:48px}
+.ticket .t-cab b{display:block;font-family:var(--f-display);font-size:1.4rem;letter-spacing:-.02em}
+.ticket .t-cab span{font-size:.78rem;color:#7A6455;letter-spacing:.08em;text-transform:uppercase}
+.t-lineas{list-style:none;margin:0;padding:0;display:grid;gap:7px;min-height:40px}
+.t-lineas li{display:flex;justify-content:space-between;gap:12px}
+.t-lineas li span:last-child{font-variant-numeric:tabular-nums;white-space:nowrap}
+.t-lineas li.ahorro{color:#2F7A2B;font-weight:600}
+.t-lineas li.vacio{color:#7A6455;justify-content:center;font-style:italic}
+.t-total{display:flex;justify-content:space-between;align-items:baseline;border-top:2px dashed #D7C7AE;margin-top:12px;padding-top:12px}
+.t-total b{font-family:var(--f-display);font-size:2rem;font-variant-numeric:tabular-nums}
+.t-datos{font-size:.84rem;color:#7A6455;margin-top:8px;display:grid;gap:2px}
+.ticket-acciones{margin-top:26px;display:grid;gap:10px}
+.ticket-acciones .btn{width:100%;padding:15px}
+.ticket-acciones .aviso{font-size:.84rem;color:var(--tinta-2);text-align:center}
+.ticket-acciones .error{color:var(--rojo);font-weight:600;font-size:.9rem;text-align:center}
+.sexto{margin-top:14px;padding:12px 14px;border-radius:14px;border:2px dashed var(--verde);font-size:.88rem;font-weight:500;display:flex;gap:10px;align-items:center}
+.sexto b{color:var(--verde)}
+.copia{margin-top:10px}
+.copia textarea{width:100%;min-height:150px;border-radius:12px;border:2px solid var(--linea);background:var(--papel);padding:10px;font-size:.82rem}
+
+/* ---------- donde pedir ---------- */
+.canales{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.canal{border-radius:var(--r);padding:26px;display:flex;flex-direction:column;gap:12px;min-width:0;border:1px solid var(--linea);background:var(--papel)}
+.canal h3{font-size:1.8rem}
+.canal p{color:var(--tinta-2)}
+.canal .btn{margin-top:auto;align-self:flex-start}
+.canal.wa{background:var(--verde);color:var(--sobre-rojo);border-color:var(--verde)}
+.canal.wa p{color:inherit;opacity:.9}
+.canal.wa .btn{border-color:var(--sobre-rojo);color:var(--sobre-rojo)}
+.numero{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.15rem;user-select:all;flex-wrap:wrap}
+.numero button{border:2px solid currentColor;background:transparent;border-radius:999px;padding:4px 12px;font-size:.8rem;font-weight:600;cursor:pointer;color:inherit}
+.dias{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:4px}
+.dias span{text-align:center;font-weight:700;font-size:.8rem;padding:8px 0;border-radius:10px;background:var(--crema)}
+.dias span.hoy{background:var(--rojo);color:var(--sobre-rojo)}
+.hora-grande{font-family:var(--f-display);font-weight:800;font-size:2.6rem;line-height:1}
+@media (max-width:900px){.canales{grid-template-columns:1fr}}
+
+/* ---------- footer ---------- */
+footer{padding-block:40px 110px;border-top:1px solid var(--linea)}
+footer .wrap{display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:space-between;color:var(--tinta-2);font-size:.9rem}
+footer .brand{color:var(--tinta)}
+
+/* wa flotante */
+.wa-flot{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;width:60px;height:60px;border-radius:50%;background:#25A244;color:#fff;display:grid;place-items:center;box-shadow:0 10px 26px -8px rgba(0,0,0,.5);transition:transform .2s}
+.wa-flot:hover{transform:scale(1.08) rotate(-6deg)}
+.wa-flot svg{width:32px;height:32px}
+
+/* reveal */
+.rv{transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .7s}
+.rv.abajo{transform:translateY(26px);opacity:.001}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,calc(100% + 60px));visibility:hidden;background:var(--tinta);color:var(--crema);padding:12px 20px;border-radius:999px;font-weight:600;z-index:70;transition:transform .3s;font-size:.92rem;max-width:calc(100% - 32px);text-align:center}
+.toast.ver{transform:translate(-50%,0);visibility:visible}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .rv.abajo{transform:none;opacity:1}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio"><img src="assets/logo-transparente.png" alt="" width="40" height="37">Tres Salsas</a>
+    <nav class="nav" aria-label="Secciones">
+      <a href="#armado">Cómo se arma</a>
+      <a href="#menu">Menú</a>
+      <a href="#pedir">Armá tu pedido</a>
+      <a href="#donde">Dónde pedir</a>
+    </nav>
+    <span class="estado" id="estado"><i></i><span>Lun a Dom · 11 a 22 h</span></span>
+  </div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <svg class="doodle d1" style="left:2%;top:4%;width:90px" viewBox="0 0 90 60" aria-hidden="true"><path d="M8 50 C 20 20, 55 8, 82 12 C 74 30, 50 48, 8 50 Z M 82 12 C 84 6, 86 4, 88 3" stroke="var(--verde)"/></svg>
+  <svg class="doodle d2" style="right:46%;top:6%;width:44px" viewBox="0 0 44 44" aria-hidden="true"><path d="M22 4 C 24 16, 28 20, 40 22 C 28 24, 24 28, 22 40 C 20 28, 16 24, 4 22 C 16 20, 20 16, 22 4 Z" stroke="var(--azul)"/></svg>
+  <div class="wrap">
+    <div class="hero-txt">
+      <span class="chip-tacos">Tacos</span>
+      <div class="wordmark">
+        <svg class="blob" viewBox="0 0 540 360" preserveAspectRatio="none" aria-hidden="true"><path fill="var(--rojo)" d="M38 196 C 22 104, 120 40, 236 52 C 300 22, 420 26, 484 92 C 536 150, 520 268, 430 312 C 340 352, 240 330, 160 338 C 80 344, 50 282, 38 196 Z"/></svg>
+        <h1>Tres<br>Salsas</h1>
+      </div>
+      <p class="tagline">3 tacos. <b>3 salsas.</b> Hechos en casa, con tortilla casera y armados al momento.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-rojo" href="#pedir">Armar mi pedido</a>
+        <a class="btn" href="#menu">Ver el menú</a>
+        <a class="btn js-py" href="#" target="_blank" rel="noopener">Pedir en PedidosYa</a>
+      </div>
+      <p class="horario">Lunes a domingo, de 11 a 22 h · <a class="js-ig" href="#" target="_blank" rel="noopener">@tressalsas.ok</a></p>
+    </div>
+    <div class="hero-foto">
+      <div class="gotas" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="marco"><img src="assets/tres.webp" alt="Tacos de osobuco, pollo y vegetales con salsa roja, verde y mayonesa de ajo"></div>
+      <div class="sello">Orden de 3<b class="js-p-orden">$13.000</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ARMADO CON SCROLL -->
+<section class="armado" id="armado" aria-label="Cómo se arma un taco">
+  <div class="stage">
+    <div class="wrap">
+      <div class="pasos-col">
+        <span class="eyebrow">Así se arma tu taco</span>
+        <h2>Capa por capa, en el momento.</h2>
+        <ol class="pasos" id="pasos">
+          <li class="paso" data-n="1"><div><h3>Tortilla casera</h3><p>Masa de maíz hecha en casa, calentada en la plancha.</p></div></li>
+          <li class="paso" data-n="2"><div><h3 id="paso-relleno-t">Osobuco braseado</h3><p id="paso-relleno-d">Cocido lento durante horas y desmechado a mano.</p></div></li>
+          <li class="paso" data-n="3"><div><h3>Morrones y cebolla</h3><p>Salteados en la plancha hasta dorarse.</p></div></li>
+          <li class="paso" data-n="4"><div><h3>Cilantro y lima</h3><p>Fresco, picado al momento.</p></div></li>
+          <li class="paso" data-n="5"><div><h3>Las tres salsas</h3><p>Roja picosa, verde de perejil y mayonesa de ajo.</p></div></li>
+          <li class="paso" data-n="6"><div><h3>¡A comer!</h3><p>Sale caliente, directo a tu puerta.</p></div></li>
+        </ol>
+        <p class="scroll-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg>Seguí bajando para armarlo</p>
+      </div>
+      <div class="taco-col">
+        <svg class="taco-svg" id="taco" viewBox="0 0 480 360" role="img" aria-label="Ilustración de un taco armándose">
+          <defs>
+            <clipPath id="clip-frente"><path d="M70 196 A170 170 0 0 0 410 196 Z"/></clipPath>
+          </defs>
+          <g transform="rotate(-9 240 200)">
+          <ellipse id="sombra" cx="240" cy="346" rx="150" ry="10" fill="var(--tinta)" opacity=".12"/>
+          <g class="capa" data-paso="0" id="capa-atras">
+            <path d="M52 182 A188 176 0 0 0 428 182 Z" fill="#D7A95E" transform="rotate(-6 428 182)"/>
+          </g>
+          <g class="capa" data-paso="1" id="capa-relleno"></g>
+          <g class="capa" data-paso="2" id="capa-toppings"></g>
+          <g class="capa" data-paso="0" id="capa-frente">
+            <path d="M70 196 A170 170 0 0 0 410 196 Z" fill="#EDCB8C" stroke="#C4914C" stroke-width="4" stroke-linejoin="round"/>
+            <g clip-path="url(#clip-frente)" id="manchas"></g>
+            <path d="M92 214 A150 150 0 0 0 388 214" fill="none" stroke="#D9AE66" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+          </g>
+          <g class="capa" data-paso="3" id="capa-cilantro"></g>
+          <g id="capa-salsas"></g>
+          </g>
+        </svg>
+        <div class="rellenos" role="group" aria-label="Elegí el relleno">
+          <button type="button" data-relleno="osobuco" aria-pressed="true">Osobuco</button>
+          <button type="button" data-relleno="pollo" aria-pressed="false">Pollo</button>
+          <button type="button" data-relleno="vegetales" aria-pressed="false">Vegetales</button>
+        </div>
+        <span class="listo" id="listo">¡Listo!</span>
+      </div>
+    </div>
+    <div class="barra" aria-hidden="true"><i id="barra"></i></div>
+  </div>
+</section>
+
+<!-- MENÚ -->
+<section class="bloque" id="menu">
+  <div class="wrap">
+    <div class="cab rv">
+      <div><span class="eyebrow">Menú</span><h2>Nuestros 3 tacos</h2></div>
+      <p>Tres rellenos, tres salsas. Pedilos sueltos o en orden de 3, combinando como quieras.</p>
+    </div>
+    <div class="tacos-grid" id="tacos-grid"></div>
+    <div class="orden3 rv">
+      <div>
+        <h3>Orden de 3 tacos</h3>
+        <p>Elegí 3 y combinalos. Sale con las 3 salsas.</p>
+      </div>
+      <span class="precio num js-p-orden">$13.000</span>
+      <a class="btn" href="#pedir">Armar mi orden</a>
+    </div>
+    <div class="salsas rv">
+      <h3>Nuestras salsas</h3>
+      <div class="salsa"><span class="pote" style="background:#C23A2E"></span><div><b class="c-osobuco">Roja</b><span>Picosa</span></div></div>
+      <div class="salsa"><span class="pote" style="background:#5FA347"></span><div><b class="c-vegetales">Verde</b><span>De perejil</span></div></div>
+      <div class="salsa"><span class="pote" style="background:#F1E6CC"></span><div><b>Mayonesa</b><span>De ajo</span></div></div>
+    </div>
+    <p class="nota-precio">Precios pidiendo directo por WhatsApp. Salsa extra <span class="js-p-salsa">$500</span>. En PedidosYa los precios son distintos.</p>
+  </div>
+</section>
+
+<!-- ARMADOR DE PEDIDO -->
+<section class="bloque pedir" id="pedir">
+  <div class="wrap">
+    <div class="cab rv">
+      <div><span class="eyebrow">Pedido directo</span><h2>Armá tu pedido</h2></div>
+      <p>Llená la bandeja, elegí tus salsas y te lo mandamos armado por WhatsApp. Cada 3 tacos se cobran como orden.</p>
+    </div>
+    <form class="pedido-grid" id="form-pedido" novalidate>
+      <div class="pasos-pedido">
+        <div class="caja">
+          <div class="caja-cab"><span class="n">1</span><div><h3>Llená la bandeja</h3><p>Tocá un taco para sumarlo. Tocalo en la bandeja para sacarlo.</p></div></div>
+          <div class="selector" id="selector"></div>
+          <div class="bandeja" id="bandeja" aria-live="polite"></div>
+          <p class="pista" id="pista"></p>
+        </div>
+        <div class="caja">
+          <div class="caja-cab"><span class="n">2</span><div><h3>Salsas</h3><p>Las 3 salsas van incluidas. ¿Querés más de alguna?</p></div></div>
+          <div class="salsa-extra" id="salsa-extra"></div>
+        </div>
+        <div class="caja">
+          <div class="caja-cab"><span class="n">3</span><div><h3>Tus datos</h3><p>Para coordinar la entrega.</p></div></div>
+          <div class="campos">
+            <div class="campo" id="c-nombre"><label for="f-nombre">Nombre</label><input id="f-nombre" name="nombre" autocomplete="given-name" placeholder="¿A nombre de quién?"><span class="err" hidden>Poné tu nombre para el pedido.</span></div>
+            <fieldset class="campo"><legend>Entrega</legend>
+              <div class="segmento">
+                <input type="radio" name="entrega" id="f-del" value="Delivery" checked><label for="f-del">Delivery</label>
+                <input type="radio" name="entrega" id="f-ret" value="Retiro"><label for="f-ret">Paso a retirar</label>
+              </div>
+            </fieldset>
+            <div class="campo full" id="c-dir"><label for="f-dir">Dirección</label><input id="f-dir" name="direccion" autocomplete="street-address" placeholder="Calle, número, piso/depto y barrio"><span class="err" hidden>Necesitamos la dirección para el delivery.</span></div>
+            <fieldset class="campo"><legend>Pago</legend>
+              <div class="segmento">
+                <input type="radio" name="pago" id="f-tr" value="Transferencia" checked><label for="f-tr">Transferencia</label>
+                <input type="radio" name="pago" id="f-ef" value="Efectivo"><label for="f-ef">Efectivo</label>
+              </div>
+            </fieldset>
+            <div class="campo"><label for="f-hora">¿Para cuándo?</label><select id="f-hora" name="hora"></select></div>
+            <div class="campo full"><label for="f-notas">Notas <span style="font-weight:400;color:var(--tinta-2)">(opcional)</span></label><textarea id="f-notas" name="notas" placeholder="Sin cilantro, timbre que no anda, etc."></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="ticket-col">
+        <div class="ticket" aria-live="polite">
+          <div class="t-cab"><img src="assets/logo-transparente.png" alt="" width="48" height="45"><b>Tres Salsas</b><span>Tu pedido</span></div>
+          <ul class="t-lineas" id="t-lineas"></ul>
+          <div class="t-total"><span>Total</span><b id="t-total">$0</b></div>
+          <div class="t-datos" id="t-datos"></div>
+        </div>
+        <div class="ticket-acciones">
+          <button class="btn btn-verde" type="submit" id="enviar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Enviar pedido por WhatsApp</button>
+          <p class="error" id="error-envio" hidden></p>
+          <p class="aviso">Se abre WhatsApp con el mensaje listo. Solo tenés que tocar enviar.</p>
+          <button class="btn" type="button" id="copiar">Copiar el mensaje</button>
+          <div class="copia" id="copia" hidden><label class="eyebrow" for="f-copia">Tu mensaje</label><textarea id="f-copia" readonly></textarea></div>
+          <div class="sexto js-sexto"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--verde)" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7S10.5 2 8 3s0 4 4 4ZM12 7s1.5-5 4-4-0 4-4 4Z"/></svg><span>Pidiendo directo, <b>tu 6º pedido es gratis</b>.</span></div>
+        </div>
+      </aside>
+    </form>
+  </div>
+</section>
+
+<!-- DÓNDE PEDIR -->
+<section class="bloque" id="donde">
+  <div class="wrap">
+    <div class="cab rv"><div><span class="eyebrow">¿Cómo pedir?</span><h2>¿Cuál pedís primero?</h2></div></div>
+    <div class="canales">
+      <div class="canal wa rv">
+        <h3>WhatsApp</h3>
+        <p>Pedí directo, sin comisiones de app. Respondemos dentro del horario.</p>
+        <div class="numero"><span id="wa-num">+54 11 6032-2974</span><button type="button" id="copiar-num">Copiar</button></div>
+        <a class="btn js-wa" href="#" target="_blank" rel="noopener">Escribirnos</a>
+      </div>
+      <div class="canal rv">
+        <h3>PedidosYa</h3>
+        <p>Encontranos en PedidosYa como <b>Tres Salsas</b> y seguí tu pedido desde la app.</p>
+        <a class="btn btn-rojo js-py" href="#" target="_blank" rel="noopener">Ver Tres Salsas en PedidosYa</a>
+      </div>
+      <div class="canal rv">
+        <h3>Horario</h3>
+        <p class="hora-grande num">11 – 22 h</p>
+        <div class="dias" id="dias"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+        <p>Todos los días. Seguinos en <a class="js-ig" href="#" target="_blank" rel="noopener">@tressalsas.ok</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#inicio"><img src="assets/logo-transparente.png" alt="" width="40" height="37">Tres Salsas</a>
+    <span>3 tacos. 3 salsas. Hechos en casa.</span>
+    <a class="js-ig" href="#" target="_blank" rel="noopener">@tressalsas.ok</a>
+  </div>
+</footer>
+
+<a class="wa-flot js-wa" href="#" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg></a>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ======================================================
+   CONFIG — cambiá estos valores y listo
+   ====================================================== */
+const CONFIG = {
+  whatsapp: "5491160322974",            // número real, solo dígitos con código de país (54 9 + área + número)
+  whatsappVisible: "+54 11 6032-2974", // cómo se muestra en la web
+  pedidosya: "https://www.pedidosya.com.ar/", // link directo al local en PedidosYa
+  instagram: "https://www.instagram.com/tressalsas.ok/",
+  horario: { abre: 11, cierra: 22, zona: "America/Argentina/Buenos_Aires" },
+  precioSuelto: 4500,
+  precioOrden3: 13000,
+  precioSalsaExtra: 500,
+  mostrarSextoGratis: true,
+  tacos: [
+    { id:"osobuco",   nombre:"Osobuco",   color:"#A8262B", img:"assets/osobuco.webp",
+      desc:"Osobuco braseado lento y desmechado, con morrones y cebolla salteados. Cilantro fresco.",
+      paso:["Osobuco braseado","Cocido lento durante horas y desmechado a mano."] },
+    { id:"pollo",     nombre:"Pollo",     color:"#1D6F8E", img:"assets/pollo.webp",
+      desc:"Pollo marinado en limón, ajo y comino, a la plancha con morrones y cebolla.",
+      paso:["Pollo a la plancha","Marinado en limón, ajo y comino, dorado en la plancha."] },
+    { id:"vegetales", nombre:"Vegetales", color:"#4E9A47", img:"assets/vegetales.webp",
+      desc:"Zucchini, choclo, morrón y hongos asados a la plancha, con cilantro y lima.",
+      paso:["Vegetales asados","Zucchini, choclo y hongos dorados a la plancha."] }
+  ],
+  salsas: [
+    { id:"roja",  nombre:"Roja",     detalle:"picosa",    color:"#C23A2E" },
+    { id:"verde", nombre:"Verde",    detalle:"de perejil", color:"#5FA347" },
+    { id:"mayo",  nombre:"Mayonesa", detalle:"de ajo",    color:"#F1E6CC" }
+  ]
+};
+/* ====================================================== */
+
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => "$" + n.toLocaleString("es-AR");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- links y textos desde CONFIG ---------- */
+const waLink = (txt) => `https://wa.me/${CONFIG.whatsapp}${txt ? "?text=" + encodeURIComponent(txt) : ""}`;
+$$(".js-wa").forEach(a => a.href = waLink("¡Hola Tres Salsas! 👋 Quiero hacer una consulta."));
+$$(".js-py").forEach(a => a.href = CONFIG.pedidosya);
+$$(".js-ig").forEach(a => a.href = CONFIG.instagram);
+$$(".js-p-orden").forEach(e => e.textContent = fmt(CONFIG.precioOrden3));
+$$(".js-p-salsa").forEach(e => e.textContent = fmt(CONFIG.precioSalsaExtra));
+$("#wa-num").textContent = CONFIG.whatsappVisible;
+if (!CONFIG.mostrarSextoGratis) $$(".js-sexto").forEach(e => e.hidden = true);
+
+/* ---------- abierto / cerrado ---------- */
+(function estado(){
+  const now = new Date();
+  let h = 0, dow = now.getDay();
+  try {
+    const parts = new Intl.DateTimeFormat("en-US",{timeZone:CONFIG.horario.zona,hour:"numeric",hour12:false,weekday:"short"}).formatToParts(now);
+    h = Number(parts.find(p=>p.type==="hour").value) % 24;
+    dow = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(parts.find(p=>p.type==="weekday").value);
+  } catch(e){ h = now.getHours(); }
+  const abierto = h >= CONFIG.horario.abre && h < CONFIG.horario.cierra;
+  const el = $("#estado");
+  el.classList.toggle("abierto", abierto);
+  el.lastElementChild.textContent = innerWidth<420 ? (abierto ? `Abierto ahora` : `Abre ${CONFIG.horario.abre} h`) : (abierto ? `Abierto · hasta las ${CONFIG.horario.cierra} h` : `Cerrado · abrimos a las ${CONFIG.horario.abre} h`);
+  const idx = (dow + 6) % 7; // lunes = 0
+  const d = $$("#dias span")[idx]; if (d) d.classList.add("hoy");
+})();
+
+/* ---------- random con semilla ---------- */
+function rng(seed){ return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+function el(tag, attrs, parent){ const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); if (parent) parent.appendChild(n); return n; }
+
+/* ---------- ilustración del taco ---------- */
+// manchas de plancha en la tortilla
+(function(){ const g = $("#manchas"), r = rng(7);
+  for (let i=0;i<26;i++){ const a = Math.PI*(0.08+0.84*r()), rad = 40+120*r();
+    el("ellipse",{cx:240+Math.cos(a)*rad*-1, cy:196+Math.sin(a)*rad, rx:3+r()*7, ry:2+r()*4, fill:"#B9803F", opacity:(.25+r()*.4).toFixed(2), transform:`rotate(${(r()*180)|0} 240 200)`}, g);
+  }})();
+
+function dentroMonticulo(r){ // punto dentro de la zona del relleno (arriba de la línea de la tortilla)
+  const x = 92 + r()*296; const t = (x-240)/150; const top = 128 + 40*t*t; const y = top + r()*(198-top); return [x,y];
+}
+function dibujarRelleno(tipo){
+  const g = $("#capa-relleno"); g.innerHTML = "";
+  const r = rng(tipo==="osobuco"?11:tipo==="pollo"?23:37);
+  const base = {osobuco:"#5A2C1B", pollo:"#D6A462", vegetales:"#7B8F3E"}[tipo];
+  el("path",{d:"M84 200 C 90 150, 150 118, 240 116 C 330 118, 392 150, 396 200 Z", fill:base},g);
+  if (tipo==="osobuco"){
+    const cols=["#6E351F","#4A2213","#83432A","#5E2B18","#93512F"];
+    for(let i=0;i<70;i++){ const [x,y]=dentroMonticulo(r); const len=14+r()*22, a=(r()-.5)*1.4;
+      const x2=x+Math.cos(a)*len, y2=y+Math.sin(a)*len*.5;
+      el("path",{d:`M${x} ${y} Q ${(x+x2)/2+(r()-.5)*10} ${(y+y2)/2-6} ${x2} ${y2}`, stroke:cols[i%5], "stroke-width":(5+r()*4).toFixed(1), "stroke-linecap":"round", fill:"none"},g); }
+  } else if (tipo==="pollo"){
+    const cols=["#E9C68F","#D9A466","#F1D6A6","#C88A4A"];
+    for(let i=0;i<34;i++){ const [x,y]=dentroMonticulo(r); const w=16+r()*14,h=10+r()*8;
+      el("rect",{x:x-w/2,y:y-h/2,width:w,height:h,rx:5,fill:cols[i%4],stroke:"#B57A3E","stroke-width":1.2,transform:`rotate(${((r()-.5)*70)|0} ${x} ${y})`},g); }
+  } else {
+    for(let i=0;i<12;i++){ const [x,y]=dentroMonticulo(r); const rr=9+r()*4;
+      el("circle",{cx:x,cy:y,r:rr,fill:"#3F7D33"},g); el("circle",{cx:x,cy:y,r:rr-3,fill:"#DDE6A8"},g); }
+    for(let i=0;i<9;i++){ const [x,y]=dentroMonticulo(r);
+      el("path",{d:`M${x-11} ${y} a11 9 0 0 1 22 0 Z`,fill:"#7A5235",stroke:"#5A3A22","stroke-width":1.5,transform:`rotate(${((r()-.5)*60)|0} ${x} ${y})`},g); }
+    for(let i=0;i<26;i++){ const [x,y]=dentroMonticulo(r); el("circle",{cx:x,cy:y,r:4.2,fill:"#F2C531",stroke:"#D9A91A","stroke-width":1},g); }
+  }
+  const p = CONFIG.tacos.find(t=>t.id===tipo).paso;
+  $("#paso-relleno-t").textContent = p[0]; $("#paso-relleno-d").textContent = p[1];
+}
+(function toppings(){
+  const g = $("#capa-toppings"), r = rng(51);
+  for(let i=0;i<9;i++){ const [x,y]=dentroMonticulo(r); const len=26+r()*16, a=(r()-.5)*1.2, x2=x+Math.cos(a)*len, y2=y+Math.sin(a)*len*.6;
+    el("path",{d:`M${x} ${y} Q ${(x+x2)/2} ${(y+y2)/2-9} ${x2} ${y2}`, stroke: i%3===2?"#3E8A36":"#D8342A", "stroke-width":7, "stroke-linecap":"round", fill:"none"},g); }
+  for(let i=0;i<8;i++){ const [x,y]=dentroMonticulo(r);
+    el("path",{d:`M${x-12} ${y+4} Q ${x} ${y-10} ${x+12} ${y+4}`, stroke:"#F4E9CF", "stroke-width":3.5, "stroke-linecap":"round", fill:"none", opacity:.95},g); }
+})();
+(function cilantro(){
+  const g = $("#capa-cilantro"), r = rng(77);
+  for(let i=0;i<13;i++){ const [x,y0]=dentroMonticulo(r); const y = Math.min(y0, 170); const s=.8+r()*.5, rot=(r()*360)|0;
+    const h = el("g",{transform:`translate(${x} ${y}) rotate(${rot}) scale(${s.toFixed(2)})`},g);
+    el("path",{d:"M0 0 C -6 -4,-8 -10,-3 -12 C -1 -15, 3 -15, 4 -12 C 9 -11, 8 -4, 0 0 Z", fill:"#3E9A3A"},h);
+    el("path",{d:"M0 0 C 7 -1, 11 3, 9 7 C 10 10, 6 12, 4 9 C 1 10, -1 4, 0 0 Z", fill:"#47A843"},h); }
+  // lima
+  const l = el("g",{transform:"translate(430 300) rotate(-18)"},g);
+  el("path",{d:"M-34 0 A34 34 0 0 0 34 0 Z", fill:"#7DB83E"},l);
+  el("path",{d:"M-28 2 A28 28 0 0 0 28 2 Z", fill:"#D9EC8A"},l);
+  for(let k=1;k<6;k++){ const a=Math.PI*k/6; el("line",{x1:0,y1:3,x2:-Math.cos(a)*25,y2:3+Math.sin(a)*25,stroke:"#B9D86A","stroke-width":2},l); }
+})();
+// salsas: trazo en zigzag + gotas
+const salsasSVG = [];
+(function salsas(){
+  const g = $("#capa-salsas");
+  const defs = [{c:"#C7362C", y:142, off:0, edge:"#8F2018"},{c:"#5FA347", y:156, off:14, edge:"#3D7A2C"},{c:"#F6EEDA", y:170, off:7, edge:"#CDBB92"}];
+  defs.forEach((s,i)=>{
+    let d = `M${104+s.off} ${s.y+12}`; let up = true;
+    for(let x=104+s.off; x<370; x+=26){ const nx=x+26; const t=((x+13)-240)/150; const base=s.y+18*t*t;
+      d += ` Q ${x+13} ${up? base-16 : base+14} ${nx} ${base}`; up=!up; }
+    const gg = el("g",{},g);
+    const sombra = el("path",{d, fill:"none", stroke:s.edge, "stroke-width":9, "stroke-linecap":"round", "stroke-linejoin":"round", opacity:.55},gg);
+    const p = el("path",{d, fill:"none", stroke:s.c, "stroke-width":6.5, "stroke-linecap":"round", "stroke-linejoin":"round"},gg);
+    // gotas que caen sobre la tortilla (como el logo)
+    const gotas = el("g",{},gg);
+    [[150+i*60, 26],[250+i*40, 34],[330-i*30, 22]].forEach(([x,h])=>{
+      const t=(x-240)/150, y0 = 186+10*t*t;
+      el("path",{d:`M${x} ${y0} v${h}`, stroke:s.edge, "stroke-width":9, "stroke-linecap":"round", opacity:.5},gotas);
+      el("path",{d:`M${x} ${y0} v${h}`, stroke:s.c, "stroke-width":6.5, "stroke-linecap":"round"},gotas);
+    });
+    gotas.style.transformOrigin = "center 186px"; gotas.style.transformBox = "fill-box";
+    const L = p.getTotalLength();
+    [sombra,p].forEach(n=>{ n.style.strokeDasharray = L; n.style.strokeDashoffset = L; });
+    salsasSVG.push({lines:[sombra,p], L, gotas});
+  });
+})();
+dibujarRelleno("osobuco");
+
+/* ---------- animación al hacer scroll ---------- */
+const sec = $("#armado"), pasosEl = $$("#pasos .paso"), capas = $$(".capa"), taco = $("#taco"), barra = $("#barra"), listo = $("#listo");
+const N = 6;
+const clamp = (v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const ease = t => 1 - Math.pow(1-t,3);
+function render(p){
+  const seg = 1/N;
+  capas.forEach(c=>{ const i = +c.dataset.paso; const t = ease(clamp((p - i*seg)/(seg*0.75)));
+    c.style.transform = `translateY(${(1-t)*-260}px)`; c.style.opacity = t; });
+  // salsas en el paso 4
+  salsasSVG.forEach((s,k)=>{ const start = 4*seg + k*seg*0.28; const t = clamp((p-start)/(seg*0.4));
+    s.lines.forEach(n=> n.style.strokeDashoffset = s.L*(1-t));
+    const tg = clamp((p-start-seg*0.3)/(seg*0.3)); s.gotas.style.transform = `scaleY(${tg})`; s.gotas.style.opacity = tg>0?1:0; });
+  const activo = Math.min(N-1, Math.floor(p*N + 0.0001));
+  pasosEl.forEach((li,i)=>{ li.classList.toggle("on", i===activo); li.classList.toggle("hecho", i<activo); });
+  const fin = p > 5*seg + seg*0.2;
+  listo.classList.toggle("ver", fin);
+  taco.style.transform = fin ? `rotate(${Math.sin(p*60)*1.2}deg)` : "";
+  barra.style.width = (p*100).toFixed(1)+"%";
+}
+function progreso(){
+  const r = sec.getBoundingClientRect(); const total = sec.offsetHeight - innerHeight;
+  return clamp(-r.top / total);
+}
+let ticking=false;
+function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(()=>{ render(reduce?1:progreso()); ticking=false; }); } }
+addEventListener("scroll", onScroll, {passive:true}); addEventListener("resize", onScroll);
+render(reduce?1:progreso());
+$$(".rellenos button").forEach(b=> b.addEventListener("click", ()=>{
+  $$(".rellenos button").forEach(x=>x.setAttribute("aria-pressed", x===b?"true":"false"));
+  dibujarRelleno(b.dataset.relleno);
+}));
+
+/* ---------- mini taco (iconos) ---------- */
+function miniTaco(color, fill){
+  return `<svg viewBox="0 0 84 62" aria-hidden="true"><path d="M8 26 C 12 12, 30 6, 42 6 C 54 6, 72 12, 76 26 Z" fill="${fill}"/><circle cx="26" cy="18" r="4" fill="#D8342A"/><circle cx="50" cy="14" r="3.5" fill="#3E9A3A"/><circle cx="60" cy="20" r="3" fill="#D8342A"/><path d="M6 28 A36 32 0 0 0 78 28 Z" fill="#EDCB8C" stroke="#C4914C" stroke-width="2.5"/><path d="M14 22 q6 -6 12 0 t12 0 t12 0 t12 0 t10 0" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round"/></svg>`;
+}
+const RELLENO_MINI = {osobuco:"#5A2C1B", pollo:"#D6A462", vegetales:"#6E8F3A"};
+
+/* ---------- menú ---------- */
+$("#tacos-grid").innerHTML = CONFIG.tacos.map(t=>`
+  <article class="taco-card rv">
+    <div class="foto"><img src="${t.img}" alt="Taco de ${t.nombre.toLowerCase()}" loading="lazy"></div>
+    <div class="cuerpo">
+      <h3 class="c-${t.id}">${t.nombre}</h3>
+      <p class="desc">${t.desc}</p>
+      <div class="pie"><span class="precio num">${fmt(CONFIG.precioSuelto)} <small>c/u</small></span>
+      <button class="mas" type="button" data-sumar="${t.id}" aria-label="Sumar taco de ${t.nombre} al pedido">+</button></div>
+    </div>
+  </article>`).join("");
+
+/* ---------- armador de pedido ---------- */
+const estadoPedido = { bandeja: [], salsas: {roja:0, verde:0, mayo:0} };
+let ultimoAgregado = -1;
+$("#selector").innerHTML = CONFIG.tacos.map(t=>`
+  <div class="opcion c-${t.id}" data-op="${t.id}">
+    <span class="mini" role="button" tabindex="0" data-add="${t.id}" aria-label="Sumar ${t.nombre}">${miniTaco(t.color, RELLENO_MINI[t.id])}</span>
+    <b>${t.nombre}</b>
+    <div class="cont"><button type="button" data-menos="${t.id}" aria-label="Quitar un ${t.nombre}">−</button><output class="num" data-cant="${t.id}">0</output><button type="button" data-add="${t.id}" aria-label="Sumar un ${t.nombre}">+</button></div>
+  </div>`).join("");
+$("#salsa-extra").innerHTML = CONFIG.salsas.map(s=>`
+  <div class="opcion" data-sop="${s.id}">
+    <span class="pote" style="background:${s.color};box-shadow:inset 0 -4px 0 rgba(0,0,0,.15)"></span>
+    <b>${s.nombre} <span style="font-weight:400;color:var(--tinta-2)">${s.detalle}</span></b>
+    <div class="cont"><button type="button" data-smenos="${s.id}" aria-label="Quitar ${s.nombre} extra">−</button><output class="num" data-scant="${s.id}">0</output><button type="button" data-smas="${s.id}" aria-label="Sumar ${s.nombre} extra">+</button></div>
+  </div>`).join("");
+
+function agregar(id){ if (estadoPedido.bandeja.length >= 30) return toast("Para más de 30 tacos escribinos por WhatsApp"); estadoPedido.bandeja.push(id); ultimoAgregado = estadoPedido.bandeja.length-1; actualizar(); }
+function quitarTipo(id){ const i = estadoPedido.bandeja.lastIndexOf(id); if (i>-1){ estadoPedido.bandeja.splice(i,1); ultimoAgregado=-1; actualizar(); } }
+document.addEventListener("click", e=>{
+  const t = e.target.closest("[data-add],[data-menos],[data-sumar],[data-smas],[data-smenos],[data-quitar]");
+  if (!t) return;
+  if (t.dataset.add) agregar(t.dataset.add);
+  if (t.dataset.menos) quitarTipo(t.dataset.menos);
+  if (t.dataset.sumar){ agregar(t.dataset.sumar); toast(`Sumaste un taco de ${CONFIG.tacos.find(x=>x.id===t.dataset.sumar).nombre.toLowerCase()} 🌮`); }
+  if (t.dataset.smas){ if (estadoPedido.salsas[t.dataset.smas] < 10) estadoPedido.salsas[t.dataset.smas]++; actualizar(); }
+  if (t.dataset.smenos){ estadoPedido.salsas[t.dataset.smenos] = Math.max(0, estadoPedido.salsas[t.dataset.smenos]-1); actualizar(); }
+  if (t.dataset.quitar !== undefined){ estadoPedido.bandeja.splice(+t.dataset.quitar,1); ultimoAgregado=-1; actualizar(); }
+});
+document.addEventListener("keydown", e=>{ const t=e.target.closest(".mini[data-add]"); if(t && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); agregar(t.dataset.add);} });
+
+function calcular(){
+  const n = estadoPedido.bandeja.length;
+  const ordenes = Math.floor(n/3), sueltos = n%3;
+  const salsasN = Object.values(estadoPedido.salsas).reduce((a,b)=>a+b,0);
+  const subtotalTacos = ordenes*CONFIG.precioOrden3 + sueltos*CONFIG.precioSuelto;
+  const sinDesc = n*CONFIG.precioSuelto;
+  return { n, ordenes, sueltos, salsasN, subtotalTacos, ahorro: sinDesc - subtotalTacos, total: subtotalTacos + salsasN*CONFIG.precioSalsaExtra };
+}
+function conteo(){ const c = {}; CONFIG.tacos.forEach(t=>c[t.id]=0); estadoPedido.bandeja.forEach(id=>c[id]++); return c; }
+
+function actualizar(){
+  const c = conteo(), k = calcular();
+  CONFIG.tacos.forEach(t=>{ $(`[data-cant="${t.id}"]`).textContent = c[t.id]; $(`[data-menos="${t.id}"]`).disabled = !c[t.id]; $(`[data-op="${t.id}"]`).classList.toggle("tiene", c[t.id]>0); });
+  CONFIG.salsas.forEach(s=>{ $(`[data-scant="${s.id}"]`).textContent = estadoPedido.salsas[s.id]; $(`[data-smenos="${s.id}"]`).disabled = !estadoPedido.salsas[s.id]; });
+  // bandeja agrupada de a 3
+  const b = $("#bandeja");
+  if (!k.n){ b.innerHTML = `<p class="bandeja-vacia">Tu bandeja está vacía. Tocá un taco para empezar.</p>`; }
+  else {
+    const grupos = Math.ceil(k.n/3); let html = '<div class="trios">';
+    for (let g=0; g<grupos; g++){
+      const completo = (g+1)*3 <= k.n; html += `<div class="trio ${completo?"completo":""}"><div class="fila">`;
+      for (let s=0; s<3; s++){ const i = g*3+s, id = estadoPedido.bandeja[i];
+        if (id){ const t = CONFIG.tacos.find(x=>x.id===id); html += `<span class="slot ${i===ultimoAgregado?"pop":""}"><span data-quitar="${i}" role="button" tabindex="0" aria-label="Sacar ${t.nombre} de la bandeja" title="Sacar">${miniTaco(t.color, RELLENO_MINI[id])}</span></span>`; }
+        else html += `<span class="slot"></span>`; }
+      html += `</div><small>${completo? "Orden de 3 · "+fmt(CONFIG.precioOrden3) : "Sueltos · "+fmt(CONFIG.precioSuelto)+" c/u"}</small></div>`;
+    }
+    b.innerHTML = html + "</div>";
+  }
+  const falta = (3 - k.n%3) % 3;
+  $("#pista").innerHTML = !k.n ? "" : falta ? `Sumá <i>${falta} más</i> y se arma otra orden de 3 (ahorrás ${fmt(CONFIG.precioSuelto*3-CONFIG.precioOrden3)}).` : `<i>¡Bandeja completa!</i> Se cobra todo como orden de 3.`;
+  // ticket
+  const L = [];
+  CONFIG.tacos.forEach(t=>{ if (c[t.id]) L.push(`<li><span>${c[t.id]} × Taco de ${t.nombre.toLowerCase()}</span><span>${fmt(c[t.id]*CONFIG.precioSuelto)}</span></li>`); });
+  if (k.ahorro) L.push(`<li class="ahorro"><span>${k.ordenes} orden${k.ordenes>1?"es":""} de 3</span><span>−${fmt(k.ahorro)}</span></li>`);
+  if (k.n) L.push(`<li><span>Salsas roja, verde y mayo</span><span>incluidas</span></li>`);
+  CONFIG.salsas.forEach(s=>{ const q = estadoPedido.salsas[s.id]; if (q) L.push(`<li><span>${q} × Salsa ${s.nombre.toLowerCase()} extra</span><span>${fmt(q*CONFIG.precioSalsaExtra)}</span></li>`); });
+  $("#t-lineas").innerHTML = L.length ? L.join("") : `<li class="vacio">Todavía no sumaste tacos</li>`;
+  $("#t-total").textContent = fmt(k.total);
+  const f = datos();
+  $("#t-datos").innerHTML = [f.nombre && `A nombre de: ${esc(f.nombre)}`, `${f.entrega}${f.entrega==="Delivery" && f.direccion ? " · "+esc(f.direccion) : ""}`, `${f.pago} · ${f.hora}`].filter(Boolean).map(x=>`<span>${x}</span>`).join("");
+  if (!$("#copia").hidden) $("#f-copia").value = mensaje();
+}
+function esc(s){ return s.replace(/[&<>"]/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m])); }
+function datos(){
+  return { nombre: $("#f-nombre").value.trim(), entrega: $("input[name=entrega]:checked").value, direccion: $("#f-dir").value.trim(),
+    pago: $("input[name=pago]:checked").value, hora: $("#f-hora").value, notas: $("#f-notas").value.trim() };
+}
+// horarios
+(function(){ const s = $("#f-hora"); const op = ["Lo antes posible"];
+  for (let h=CONFIG.horario.abre; h<CONFIG.horario.cierra; h++){ op.push(`${h}:00 h`); op.push(`${h}:30 h`); }
+  s.innerHTML = op.map(o=>`<option>${o}</option>`).join(""); })();
+
+function mensaje(){
+  const c = conteo(), k = calcular(), f = datos();
+  const lineas = ["¡Hola TRES SALSAS! 👋 Quiero hacer un pedido:", "", "🌮 *Tacos*"];
+  CONFIG.tacos.forEach(t=>{ if (c[t.id]) lineas.push(`• ${c[t.id]} × ${t.nombre}`); });
+  if (k.ordenes) lineas.push(`  (${k.ordenes} orden${k.ordenes>1?"es":""} de 3${k.sueltos? " + "+k.sueltos+" suelto"+(k.sueltos>1?"s":"") : ""})`);
+  lineas.push("", "🌶️ *Salsas*: roja, verde y mayo incluidas");
+  const ex = CONFIG.salsas.filter(s=>estadoPedido.salsas[s.id]).map(s=>`${estadoPedido.salsas[s.id]} × ${s.nombre.toLowerCase()}`);
+  if (ex.length) lineas.push(`➕ Extra: ${ex.join(", ")}`);
+  lineas.push("", `📍 *Entrega*: ${f.entrega}${f.entrega==="Delivery" ? " — "+f.direccion : ""}`);
+  lineas.push(`🕐 *Para*: ${f.hora}`);
+  lineas.push(`💳 *Pago*: ${f.pago}`);
+  if (f.notas) lineas.push(`📝 *Notas*: ${f.notas}`);
+  lineas.push("", `💰 *Total*: ${fmt(k.total)}`, `👤 ${f.nombre}`);
+  return lineas.join("\n");
+}
+function validar(){
+  const k = calcular(), f = datos(); let ok = true;
+  const set = (id, bad)=>{ const c=$(id); c.classList.toggle("invalido", bad); $(".err",c).hidden=!bad; if(bad) ok=false; };
+  set("#c-nombre", !f.nombre);
+  set("#c-dir", f.entrega==="Delivery" && !f.direccion);
+  const err = $("#error-envio");
+  if (!k.n){ err.textContent = "Sumá al menos un taco a la bandeja."; err.hidden = false; ok = false; }
+  else if (!ok){ err.textContent = "Completá los datos marcados en rojo."; err.hidden = false; }
+  else err.hidden = true;
+  return ok;
+}
+$("#form-pedido").addEventListener("submit", e=>{
+  e.preventDefault();
+  if (!validar()){ const first = !calcular().n ? $("#selector") : $(".invalido input"); first && first.scrollIntoView({behavior: reduce?"auto":"smooth", block:"center"}); return; }
+  const a = document.createElement("a"); a.href = waLink(mensaje()); a.target = "_blank"; a.rel = "noopener"; document.body.appendChild(a); a.click(); a.remove();
+  toast("Abrimos WhatsApp con tu pedido. Tocá enviar allá.");
+});
+$("#form-pedido").addEventListener("input", ()=>{ actualizar(); if(!$("#error-envio").hidden) validar(); });
+$$("input[name=entrega]").forEach(r=>r.addEventListener("change", ()=>{ $("#c-dir").hidden = datos().entrega!=="Delivery"; actualizar(); }));
+
+async function copiar(texto, ok){
+  try { await navigator.clipboard.writeText(texto); toast(ok); return true; } catch(e){ return false; }
+}
+$("#copiar").addEventListener("click", async ()=>{
+  const box = $("#copia"); box.hidden = false; const ta = $("#f-copia"); ta.value = mensaje();
+  if (!(await copiar(ta.value, "Mensaje copiado. Pegalo en WhatsApp."))){ ta.focus(); ta.select(); toast("Seleccioná el texto y copialo"); }
+});
+$("#copiar-num").addEventListener("click", async ()=>{ if(!(await copiar(CONFIG.whatsappVisible, "Número copiado"))) toast(CONFIG.whatsappVisible); });
+
+let tt; function toast(m){ const t=$("#toast"); t.textContent=m; t.classList.add("ver"); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove("ver"),2600); }
+
+/* ---------- ejemplo inicial para que la bandeja no arranque vacía ---------- */
+estadoPedido.bandeja = ["osobuco","pollo","vegetales"];
+actualizar();
+
+/* ---------- reveal suave (parte visible por defecto) ---------- */
+if (!reduce && "IntersectionObserver" in window){
+  const io = new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.remove("abajo"); io.unobserve(en.target);} }),{rootMargin:"0px 0px -8% 0px"});
+  $$(".rv").forEach(n=>{ const r=n.getBoundingClientRect(); if (r.top > innerHeight){ n.classList.add("abajo"); io.observe(n);} });
+}
+</script>
+</body>
+</html>
