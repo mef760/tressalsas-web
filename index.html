@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Tres Salsas</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
 <meta name="description" content="Tres Salsas · 3 tacos. 3 salsas. Hechos en casa. Pedí por WhatsApp o PedidosYa.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -319,7 +321,7 @@ footer .brand{color:var(--tinta)}
     <div class="hero-foto">
       <div class="gotas" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="marco"><img src="assets/tres.webp" alt="Tacos de osobuco, pollo y vegetales con salsa roja, verde y mayonesa de ajo"></div>
-      <div class="sello">Orden de 3<b class="js-p-orden">$13.000</b></div>
+      <div class="sello">Orden de 3<b class="js-p-orden">$19.990</b></div>
     </div>
   </div>
 </section>
@@ -335,7 +337,7 @@ footer .brand{color:var(--tinta)}
           <li class="paso" data-n="1"><div><h3>Tortilla casera</h3><p>Masa de maíz hecha en casa, calentada en la plancha.</p></div></li>
           <li class="paso" data-n="2"><div><h3 id="paso-relleno-t">Osobuco braseado</h3><p id="paso-relleno-d">Cocido lento durante horas y desmechado a mano.</p></div></li>
           <li class="paso" data-n="3"><div><h3>Morrones y cebolla</h3><p>Salteados en la plancha hasta dorarse.</p></div></li>
-          <li class="paso" data-n="4"><div><h3>Cilantro y lima</h3><p>Fresco, picado al momento.</p></div></li>
+          <li class="paso" data-n="4"><div><h3>Perejil y lima</h3><p>Fresco, picado al momento.</p></div></li>
           <li class="paso" data-n="5"><div><h3>Las tres salsas</h3><p>Roja picosa, verde de perejil y mayonesa de ajo.</p></div></li>
           <li class="paso" data-n="6"><div><h3>¡A comer!</h3><p>Sale caliente, directo a tu puerta.</p></div></li>
         </ol>
@@ -358,7 +360,7 @@ footer .brand{color:var(--tinta)}
             <g clip-path="url(#clip-frente)" id="manchas"></g>
             <path d="M92 214 A150 150 0 0 0 388 214" fill="none" stroke="#D9AE66" stroke-width="3" stroke-linecap="round" opacity=".7"/>
           </g>
-          <g class="capa" data-paso="3" id="capa-cilantro"></g>
+          <g class="capa" data-paso="3" id="capa-perejil"></g>
           <g id="capa-salsas"></g>
           </g>
         </svg>
@@ -385,9 +387,9 @@ footer .brand{color:var(--tinta)}
     <div class="orden3 rv">
       <div>
         <h3>Orden de 3 tacos</h3>
-        <p>Elegí 3 y combinalos. Sale con las 3 salsas.</p>
+        <p>Elegí 3 y combinalos. Incluye 2 salsas.</p>
       </div>
-      <span class="precio num js-p-orden">$13.000</span>
+      <span class="precio num js-p-orden">$19.990</span>
       <a class="btn" href="#pedir">Armar mi orden</a>
     </div>
     <div class="salsas rv">
@@ -396,7 +398,7 @@ footer .brand{color:var(--tinta)}
       <div class="salsa"><span class="pote" style="background:#5FA347"></span><div><b class="c-vegetales">Verde</b><span>De perejil</span></div></div>
       <div class="salsa"><span class="pote" style="background:#F1E6CC"></span><div><b>Mayonesa</b><span>De ajo</span></div></div>
     </div>
-    <p class="nota-precio">Precios pidiendo directo por WhatsApp. Salsa extra <span class="js-p-salsa">$500</span>. En PedidosYa los precios son distintos.</p>
+    <p class="nota-precio">Mismos precios por WhatsApp y por PedidosYa. Salsa extra <span class="js-p-salsa">$1.900</span>.</p>
   </div>
 </section>
 
@@ -437,7 +439,7 @@ footer .brand{color:var(--tinta)}
               </div>
             </fieldset>
             <div class="campo"><label for="f-hora">¿Para cuándo?</label><select id="f-hora" name="hora"></select></div>
-            <div class="campo full"><label for="f-notas">Notas <span style="font-weight:400;color:var(--tinta-2)">(opcional)</span></label><textarea id="f-notas" name="notas" placeholder="Sin cilantro, timbre que no anda, etc."></textarea></div>
+            <div class="campo full"><label for="f-notas">Notas <span style="font-weight:400;color:var(--tinta-2)">(opcional)</span></label><textarea id="f-notas" name="notas" placeholder="Sin perejil, timbre que no anda, etc."></textarea></div>
           </div>
         </div>
       </div>
@@ -507,22 +509,22 @@ footer .brand{color:var(--tinta)}
 const CONFIG = {
   whatsapp: "5491160322974",            // número real, solo dígitos con código de país (54 9 + área + número)
   whatsappVisible: "+54 11 6032-2974", // cómo se muestra en la web
-  pedidosya: "https://www.pedidosya.com.ar/", // link directo al local en PedidosYa
+  pedidosya: "https://www.pedidosya.com.ar/restaurantes/buenos-aires/tres-salsas-dcb6e0bc-b6e6-4aee-a175-fcf43838454d-menu", // link directo al local en PedidosYa
   instagram: "https://www.instagram.com/tressalsas.ok/",
   horario: { abre: 11, cierra: 22, zona: "America/Argentina/Buenos_Aires" },
-  precioSuelto: 4500,
-  precioOrden3: 13000,
-  precioSalsaExtra: 500,
+  // mismos precios que en PedidosYa
+  precioOrden3: 19990,   // Trío clásico
+  precioSalsaExtra: 1900,
   mostrarSextoGratis: true,
   tacos: [
-    { id:"osobuco",   nombre:"Osobuco",   color:"#A8262B", img:"assets/osobuco.webp",
-      desc:"Osobuco braseado lento y desmechado, con morrones y cebolla salteados. Cilantro fresco.",
+    { id:"osobuco",   nombre:"Osobuco",   precio:7100,   color:"#A8262B", img:"assets/osobuco.webp",
+      desc:"Osobuco braseado lento y desmechado, con morrones y cebolla salteados. Perejil fresco.",
       paso:["Osobuco braseado","Cocido lento durante horas y desmechado a mano."] },
-    { id:"pollo",     nombre:"Pollo",     color:"#1D6F8E", img:"assets/pollo.webp",
+    { id:"pollo",     nombre:"Pollo",     precio:6800,     color:"#1D6F8E", img:"assets/pollo.webp",
       desc:"Pollo marinado en limón, ajo y comino, a la plancha con morrones y cebolla.",
       paso:["Pollo a la plancha","Marinado en limón, ajo y comino, dorado en la plancha."] },
-    { id:"vegetales", nombre:"Vegetales", color:"#4E9A47", img:"assets/vegetales.webp",
-      desc:"Zucchini, choclo, morrón y hongos asados a la plancha, con cilantro y lima.",
+    { id:"vegetales", nombre:"Vegetales", precio:6800, color:"#4E9A47", img:"assets/vegetales.webp",
+      desc:"Zucchini, choclo, morrón y hongos asados a la plancha, con perejil y lima.",
       paso:["Vegetales asados","Zucchini, choclo y hongos dorados a la plancha."] }
   ],
   salsas: [
@@ -611,8 +613,8 @@ function dibujarRelleno(tipo){
   for(let i=0;i<8;i++){ const [x,y]=dentroMonticulo(r);
     el("path",{d:`M${x-12} ${y+4} Q ${x} ${y-10} ${x+12} ${y+4}`, stroke:"#F4E9CF", "stroke-width":3.5, "stroke-linecap":"round", fill:"none", opacity:.95},g); }
 })();
-(function cilantro(){
-  const g = $("#capa-cilantro"), r = rng(77);
+(function perejil(){
+  const g = $("#capa-perejil"), r = rng(77);
   for(let i=0;i<13;i++){ const [x,y0]=dentroMonticulo(r); const y = Math.min(y0, 170); const s=.8+r()*.5, rot=(r()*360)|0;
     const h = el("g",{transform:`translate(${x} ${y}) rotate(${rot}) scale(${s.toFixed(2)})`},g);
     el("path",{d:"M0 0 C -6 -4,-8 -10,-3 -12 C -1 -15, 3 -15, 4 -12 C 9 -11, 8 -4, 0 0 Z", fill:"#3E9A3A"},h);
@@ -696,7 +698,7 @@ $("#tacos-grid").innerHTML = CONFIG.tacos.map(t=>`
     <div class="cuerpo">
       <h3 class="c-${t.id}">${t.nombre}</h3>
       <p class="desc">${t.desc}</p>
-      <div class="pie"><span class="precio num">${fmt(CONFIG.precioSuelto)} <small>c/u</small></span>
+      <div class="pie"><span class="precio num">${fmt(t.precio)} <small>c/u</small></span>
       <button class="mas" type="button" data-sumar="${t.id}" aria-label="Sumar taco de ${t.nombre} al pedido">+</button></div>
     </div>
   </article>`).join("");
@@ -735,8 +737,10 @@ function calcular(){
   const n = estadoPedido.bandeja.length;
   const ordenes = Math.floor(n/3), sueltos = n%3;
   const salsasN = Object.values(estadoPedido.salsas).reduce((a,b)=>a+b,0);
-  const subtotalTacos = ordenes*CONFIG.precioOrden3 + sueltos*CONFIG.precioSuelto;
-  const sinDesc = n*CONFIG.precioSuelto;
+  // los 3 más caros van en órdenes de 3; los más baratos quedan sueltos
+  const precios = estadoPedido.bandeja.map(id => CONFIG.tacos.find(x=>x.id===id).precio).sort((a,b)=>b-a);
+  const sinDesc = precios.reduce((a,b)=>a+b,0);
+  const subtotalTacos = ordenes*CONFIG.precioOrden3 + precios.slice(ordenes*3).reduce((a,b)=>a+b,0);
   return { n, ordenes, sueltos, salsasN, subtotalTacos, ahorro: sinDesc - subtotalTacos, total: subtotalTacos + salsasN*CONFIG.precioSalsaExtra };
 }
 function conteo(){ const c = {}; CONFIG.tacos.forEach(t=>c[t.id]=0); estadoPedido.bandeja.forEach(id=>c[id]++); return c; }
@@ -755,17 +759,17 @@ function actualizar(){
       for (let s=0; s<3; s++){ const i = g*3+s, id = estadoPedido.bandeja[i];
         if (id){ const t = CONFIG.tacos.find(x=>x.id===id); html += `<span class="slot ${i===ultimoAgregado?"pop":""}"><span data-quitar="${i}" role="button" tabindex="0" aria-label="Sacar ${t.nombre} de la bandeja" title="Sacar">${miniTaco(t.color, RELLENO_MINI[id])}</span></span>`; }
         else html += `<span class="slot"></span>`; }
-      html += `</div><small>${completo? "Orden de 3 · "+fmt(CONFIG.precioOrden3) : "Sueltos · "+fmt(CONFIG.precioSuelto)+" c/u"}</small></div>`;
+      html += `</div><small>${completo? "Orden de 3 · "+fmt(CONFIG.precioOrden3) : "Sueltos"}</small></div>`;
     }
     b.innerHTML = html + "</div>";
   }
   const falta = (3 - k.n%3) % 3;
-  $("#pista").innerHTML = !k.n ? "" : falta ? `Sumá <i>${falta} más</i> y se arma otra orden de 3 (ahorrás ${fmt(CONFIG.precioSuelto*3-CONFIG.precioOrden3)}).` : `<i>¡Bandeja completa!</i> Se cobra todo como orden de 3.`;
+  $("#pista").innerHTML = !k.n ? "" : falta ? `Sumá <i>${falta} más</i> y se arma otra orden de 3 (sale más barato que sueltos).` : `<i>¡Bandeja completa!</i> Se cobra todo como orden de 3.`;
   // ticket
   const L = [];
-  CONFIG.tacos.forEach(t=>{ if (c[t.id]) L.push(`<li><span>${c[t.id]} × Taco de ${t.nombre.toLowerCase()}</span><span>${fmt(c[t.id]*CONFIG.precioSuelto)}</span></li>`); });
+  CONFIG.tacos.forEach(t=>{ if (c[t.id]) L.push(`<li><span>${c[t.id]} × Taco de ${t.nombre.toLowerCase()}</span><span>${fmt(c[t.id]*t.precio)}</span></li>`); });
   if (k.ahorro) L.push(`<li class="ahorro"><span>${k.ordenes} orden${k.ordenes>1?"es":""} de 3</span><span>−${fmt(k.ahorro)}</span></li>`);
-  if (k.n) L.push(`<li><span>Salsas roja, verde y mayo</span><span>incluidas</span></li>`);
+  if (k.n) L.push(`<li><span>2 salsas a elección</span><span>incluidas</span></li>`);
   CONFIG.salsas.forEach(s=>{ const q = estadoPedido.salsas[s.id]; if (q) L.push(`<li><span>${q} × Salsa ${s.nombre.toLowerCase()} extra</span><span>${fmt(q*CONFIG.precioSalsaExtra)}</span></li>`); });
   $("#t-lineas").innerHTML = L.length ? L.join("") : `<li class="vacio">Todavía no sumaste tacos</li>`;
   $("#t-total").textContent = fmt(k.total);
