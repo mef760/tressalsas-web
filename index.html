@@ -196,8 +196,9 @@ section.bloque{padding-block:clamp(56px,8vw,104px)}
 .pista{margin-top:12px;font-size:.9rem;font-weight:500}
 .mini svg,.trio .slot svg{transform:rotate(-10deg)}
 .pista i{font-style:normal;color:var(--rojo);font-weight:700}
-.salsa-extra{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.salsa-extra .opcion{flex-direction:row;justify-content:space-between;text-align:left;padding:12px 14px}
+.salsa-extra{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px}
+.salsa-extra .opcion{flex-direction:row;flex-wrap:wrap;justify-content:space-between;text-align:left;padding:12px 14px}
+.salsa-extra .opcion .cont{flex:none;margin-top:0}
 .salsa-extra .opcion .pote{width:28px;height:28px;border-radius:50%;flex:none}
 .salsa-extra .opcion b{font-size:.95rem;flex:1}
 .incluidas{margin-bottom:14px;font-size:.92rem;color:var(--tinta-2)}
