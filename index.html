@@ -207,6 +207,9 @@ section.bloque{padding-block:clamp(56px,8vw,104px)}
 .campo.full{grid-column:1/-1}
 .campo label,.campo legend{font-weight:600;font-size:.9rem}
 .campo input,.campo select,.campo textarea{border:2px solid var(--linea);background:var(--papel);border-radius:12px;padding:11px 13px;width:100%}
+.cupon-fila{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:stretch;gap:8px}
+.cupon-fila input{min-width:0;width:auto}
+.cupon-fila .btn{padding-inline:14px}
 .campo input:focus,.campo select:focus,.campo textarea:focus{border-color:var(--tinta);outline:none}
 .campo textarea{resize:vertical;min-height:70px}
 .campo .err{color:var(--rojo);font-size:.82rem;font-weight:600}
@@ -456,7 +459,7 @@ footer .brand{color:var(--tinta)}
           <p class="aviso">Se abre WhatsApp con el mensaje listo. Solo tenés que tocar enviar.</p>
           <button class="btn" type="button" id="copiar">Copiar el mensaje</button>
           <div class="copia" id="copia" hidden><label class="eyebrow" for="f-copia">Tu mensaje</label><textarea id="f-copia" readonly></textarea></div>
-          <div class="campo full"><label for="f-cupon">Cupón</label><div style="display:flex;gap:8px"><input id="f-cupon" name="cupon" autocomplete="off" placeholder="Ingresá tu cupón" style="flex:1"><button class="btn" id="aplicar-cupon" type="button">Aplicar</button></div><span id="estado-cupon" aria-live="polite"></span></div>
+          <div class="campo full"><label for="f-cupon">Cupón</label><div class="cupon-fila"><input id="f-cupon" name="cupon" type="text" autocomplete="off" placeholder="Ingresá tu cupón"><button class="btn" id="aplicar-cupon" type="button">Aplicar</button></div><span id="estado-cupon" aria-live="polite"></span></div>
         </div>
       </aside>
     </form>
