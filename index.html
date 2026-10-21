@@ -240,8 +240,6 @@ fieldset.campo{border:0;padding:0;margin:0}
 .ticket-acciones .btn{width:100%;padding:15px}
 .ticket-acciones .aviso{font-size:.84rem;color:var(--tinta-2);text-align:center}
 .ticket-acciones .error{color:var(--rojo);font-weight:600;font-size:.9rem;text-align:center}
-.sexto{margin-top:14px;padding:12px 14px;border-radius:14px;border:2px dashed var(--verde);font-size:.88rem;font-weight:500;display:flex;gap:10px;align-items:center}
-.sexto b{color:var(--verde)}
 .copia{margin-top:10px}
 .copia textarea{width:100%;min-height:150px;border-radius:12px;border:2px solid var(--linea);background:var(--papel);padding:10px;font-size:.82rem}
 
@@ -317,12 +315,12 @@ footer .brand{color:var(--tinta)}
         <a class="btn" href="#menu">Ver el menú</a>
         <a class="btn js-py" href="#" target="_blank" rel="noopener">Pedir en PedidosYa</a>
       </div>
-      <p class="horario">Lunes a domingo, de 11 a 22 h · <a class="js-ig" href="#" target="_blank" rel="noopener">@tressalsas.ok</a></p>
+      <p class="horario">Martes a domingo, de 11:30 a 22:30 h · <a class="js-ig" href="#" target="_blank" rel="noopener">@tressalsas.ok</a></p>
     </div>
     <div class="hero-foto">
       <div class="gotas" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="marco"><img src="assets/tres.webp" alt="Tacos de osobuco, pollo y vegetales con salsa roja, verde y mayonesa de ajo"></div>
-      <div class="sello">Orden de 3<b class="js-p-orden">$19.990</b></div>
+      <div class="sello">Orden de 3<b class="js-p-orden">$15.990</b></div>
     </div>
   </div>
 </section>
@@ -390,7 +388,7 @@ footer .brand{color:var(--tinta)}
         <h3>Orden de 3 tacos</h3>
         <p>Elegí 3 y combinalos. Incluye 2 salsas.</p>
       </div>
-      <span class="precio num js-p-orden">$19.990</span>
+      <span class="precio num js-p-orden">$15.990</span>
       <a class="btn" href="#pedir">Armar mi orden</a>
     </div>
     <div class="salsas rv">
@@ -458,7 +456,7 @@ footer .brand{color:var(--tinta)}
           <p class="aviso">Se abre WhatsApp con el mensaje listo. Solo tenés que tocar enviar.</p>
           <button class="btn" type="button" id="copiar">Copiar el mensaje</button>
           <div class="copia" id="copia" hidden><label class="eyebrow" for="f-copia">Tu mensaje</label><textarea id="f-copia" readonly></textarea></div>
-          <div class="sexto js-sexto"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--verde)" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7S10.5 2 8 3s0 4 4 4ZM12 7s1.5-5 4-4-0 4-4 4Z"/></svg><span>Pidiendo directo, <b>tu 6º pedido es gratis</b>.</span></div>
+          <div class="campo full"><label for="f-cupon">Cupón</label><div style="display:flex;gap:8px"><input id="f-cupon" name="cupon" autocomplete="off" placeholder="Ingresá tu cupón" style="flex:1"><button class="btn" id="aplicar-cupon" type="button">Aplicar</button></div><span id="estado-cupon" aria-live="polite"></span></div>
         </div>
       </aside>
     </form>
@@ -483,9 +481,9 @@ footer .brand{color:var(--tinta)}
       </div>
       <div class="canal rv">
         <h3>Horario</h3>
-        <p class="hora-grande num">11 – 22 h</p>
+        <p class="hora-grande num">11:30 – 22:30 h</p>
         <div class="dias" id="dias"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
-        <p>Todos los días. Seguinos en <a class="js-ig" href="#" target="_blank" rel="noopener">@tressalsas.ok</a></p>
+        <p>De martes a domingo · lunes cerrado. Seguinos en <a class="js-ig" href="#" target="_blank" rel="noopener">@tressalsas.ok</a></p>
       </div>
     </div>
   </div>
@@ -512,11 +510,11 @@ const CONFIG = {
   whatsappVisible: "+54 9 11 7063-7299", // cómo se muestra en la web
   pedidosya: "https://www.pedidosya.com.ar/restaurantes/buenos-aires/tres-salsas-dcb6e0bc-b6e6-4aee-a175-fcf43838454d-menu", // link directo al local en PedidosYa
   instagram: "https://www.instagram.com/tressalsas.ok/",
-  horario: { abre: 11, cierra: 22, zona: "America/Argentina/Buenos_Aires" },
+  horario: { abre: 11.5, cierra: 22.5, diasAbiertos: [0,2,3,4,5,6], zona: "America/Argentina/Buenos_Aires" },
   // mismos precios que en PedidosYa
-  precioOrden3: 19990,   // Trío clásico
+  precioOrden3: 15990,   // Trío clásico
   precioSalsaExtra: 1900,
-  mostrarSextoGratis: true,
+  cupon: { codigo: "TACO20", porcentaje: 20 },
   tacos: [
     { id:"osobuco",   nombre:"Osobuco",   precio:7100,   color:"#A8262B", img:"assets/osobuco.webp",
       desc:"Osobuco braseado lento y desmechado, con morrones y cebolla salteados. Perejil fresco.",
@@ -550,7 +548,6 @@ $$(".js-ig").forEach(a => a.href = CONFIG.instagram);
 $$(".js-p-orden").forEach(e => e.textContent = fmt(CONFIG.precioOrden3));
 $$(".js-p-salsa").forEach(e => e.textContent = fmt(CONFIG.precioSalsaExtra));
 $("#wa-num").textContent = CONFIG.whatsappVisible;
-if (!CONFIG.mostrarSextoGratis) $$(".js-sexto").forEach(e => e.hidden = true);
 
 /* ---------- abierto / cerrado ---------- */
 (function estado(){
@@ -561,10 +558,12 @@ if (!CONFIG.mostrarSextoGratis) $$(".js-sexto").forEach(e => e.hidden = true);
     h = Number(parts.find(p=>p.type==="hour").value) % 24;
     dow = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(parts.find(p=>p.type==="weekday").value);
   } catch(e){ h = now.getHours(); }
-  const abierto = h >= CONFIG.horario.abre && h < CONFIG.horario.cierra;
+  const minuto = h*60 + Number(new Intl.DateTimeFormat("en-US",{timeZone:CONFIG.horario.zona,minute:"numeric"}).format(now));
+  const abreMin = CONFIG.horario.abre*60, cierraMin = CONFIG.horario.cierra*60;
+  const abierto = CONFIG.horario.diasAbiertos.includes(dow) && minuto >= abreMin && minuto < cierraMin;
   const el = $("#estado");
   el.classList.toggle("abierto", abierto);
-  el.lastElementChild.textContent = innerWidth<420 ? (abierto ? `Abierto ahora` : `Abre ${CONFIG.horario.abre} h`) : (abierto ? `Abierto · hasta las ${CONFIG.horario.cierra} h` : `Cerrado · abrimos a las ${CONFIG.horario.abre} h`);
+  el.lastElementChild.textContent = innerWidth<420 ? (abierto ? `Abierto ahora` : `Abre 11:30 h`) : (abierto ? `Abierto · hasta las 22:30 h` : `Cerrado · abrimos a las 11:30 h`);
   const idx = (dow + 6) % 7; // lunes = 0
   const d = $$("#dias span")[idx]; if (d) d.classList.add("hoy");
 })();
@@ -706,6 +705,7 @@ $("#tacos-grid").innerHTML = CONFIG.tacos.map(t=>`
 
 /* ---------- armador de pedido ---------- */
 const estadoPedido = { bandeja: [], salsas: {roja:0, verde:0, mayo:0} };
+let cuponAplicado = false;
 let ultimoAgregado = -1;
 $("#selector").innerHTML = CONFIG.tacos.map(t=>`
   <div class="opcion c-${t.id}" data-op="${t.id}">
@@ -742,7 +742,9 @@ function calcular(){
   const precios = estadoPedido.bandeja.map(id => CONFIG.tacos.find(x=>x.id===id).precio).sort((a,b)=>b-a);
   const sinDesc = precios.reduce((a,b)=>a+b,0);
   const subtotalTacos = ordenes*CONFIG.precioOrden3 + precios.slice(ordenes*3).reduce((a,b)=>a+b,0);
-  return { n, ordenes, sueltos, salsasN, subtotalTacos, ahorro: sinDesc - subtotalTacos, total: subtotalTacos + salsasN*CONFIG.precioSalsaExtra };
+  const subtotal = subtotalTacos + salsasN*CONFIG.precioSalsaExtra;
+  const descuentoCupon = cuponAplicado ? Math.round(subtotal*CONFIG.cupon.porcentaje/100) : 0;
+  return { n, ordenes, sueltos, salsasN, subtotalTacos, ahorro: sinDesc - subtotalTacos, subtotal, descuentoCupon, total: subtotal-descuentoCupon };
 }
 function conteo(){ const c = {}; CONFIG.tacos.forEach(t=>c[t.id]=0); estadoPedido.bandeja.forEach(id=>c[id]++); return c; }
 
@@ -772,6 +774,7 @@ function actualizar(){
   if (k.ahorro) L.push(`<li class="ahorro"><span>${k.ordenes} orden${k.ordenes>1?"es":""} de 3</span><span>−${fmt(k.ahorro)}</span></li>`);
   if (k.n) L.push(`<li><span>2 salsas a elección</span><span>incluidas</span></li>`);
   CONFIG.salsas.forEach(s=>{ const q = estadoPedido.salsas[s.id]; if (q) L.push(`<li><span>${q} × Salsa ${s.nombre.toLowerCase()} extra</span><span>${fmt(q*CONFIG.precioSalsaExtra)}</span></li>`); });
+  if(k.descuentoCupon) L.push(`<li class="ahorro"><span>Cupón ${CONFIG.cupon.codigo} (${CONFIG.cupon.porcentaje}%)</span><span>−${fmt(k.descuentoCupon)}</span></li>`);
   $("#t-lineas").innerHTML = L.length ? L.join("") : `<li class="vacio">Todavía no sumaste tacos</li>`;
   $("#t-total").textContent = fmt(k.total);
   const f = datos();
@@ -785,7 +788,7 @@ function datos(){
 }
 // horarios
 (function(){ const s = $("#f-hora"); const op = ["Lo antes posible"];
-  for (let h=CONFIG.horario.abre; h<CONFIG.horario.cierra; h++){ op.push(`${h}:00 h`); op.push(`${h}:30 h`); }
+  for(let m=11*60+30;m<=22*60+30;m+=30) op.push(`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")} h`);
   s.innerHTML = op.map(o=>`<option>${o}</option>`).join(""); })();
 
 function mensaje(){
@@ -800,6 +803,7 @@ function mensaje(){
   lineas.push(`🕐 *Para*: ${f.hora}`);
   lineas.push(`💳 *Pago*: ${f.pago}`);
   if (f.notas) lineas.push(`📝 *Notas*: ${f.notas}`);
+  if(k.descuentoCupon) lineas.push(`🎟️ *Cupón ${CONFIG.cupon.codigo} (${CONFIG.cupon.porcentaje}%)*: −${fmt(k.descuentoCupon)}`);
   lineas.push("", `💰 *Total*: ${fmt(k.total)}`, `👤 ${f.nombre}`);
   return lineas.join("\n");
 }
@@ -814,6 +818,16 @@ function validar(){
   else err.hidden = true;
   return ok;
 }
+$("#aplicar-cupon").addEventListener("click",()=>{
+  const ingresado=$("#f-cupon").value.trim().toUpperCase();
+  cuponAplicado=ingresado===CONFIG.cupon.codigo;
+  const estado=$("#estado-cupon");
+  estado.textContent=cuponAplicado?`Cupón aplicado: ${CONFIG.cupon.porcentaje}% de descuento.`:(ingresado?"Cupón no válido.":"Ingresá un cupón.");
+  estado.style.color=cuponAplicado?"#2F7A2B":"var(--rojo)";
+  actualizar();
+});
+$("#f-cupon").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("#aplicar-cupon").click();}});
+$("#f-cupon").addEventListener("input",()=>{if(cuponAplicado){cuponAplicado=false;$("#estado-cupon").textContent="";actualizar();}});
 $("#form-pedido").addEventListener("submit", e=>{
   e.preventDefault();
   if (!validar()){ const first = !calcular().n ? $("#selector") : $(".invalido input"); first && first.scrollIntoView({behavior: reduce?"auto":"smooth", block:"center"}); return; }
